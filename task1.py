@@ -28,7 +28,25 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		optimizer.step()
 		optimizer.zero_grad()
 
-		print(f"loss: {loss:>7f}, {(batch+1)*batch_size:>5d}/{total_size:>5d}")
+		print(f"loss: {loss:>7f}, [{(batch+1)*batch_size:>5d}/{total_size:>5d}]")
+
+def test_loop(dataloader, model, loss_func):
+	size = dataloader.shape[0]
+	test_loss = 0.0
+	test_acc = 0.0
+
+	model.eval()
+
+	with torch.no_grad():
+		for inputs, labels in dataloader:
+			output = model(inputs)
+			test_loss += loss_func(output, labels)
+			test_acc += (torch.max(output, dim=1)[1]==labels).type(torch.float).sum().item()
+
+	test_loss /= size
+	test_acc /= size
+
+	print(f"test loss: {test_loss:>7f}, test acc: {test_acc:>3f}\n")
 
 
 learning_rate = 0.001
@@ -85,10 +103,11 @@ optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
 for epoch in range(epoch_num):
 	loss_avg = 0.0
 	acc_avg = 0.0
-	print(f"--------------------Epoch:{epoch}--------------------")
+	print(f"----------Epoch:{epoch}----------")
 
 	train_loop(train_loader, resnet, CE_loss, optimizer)
+	text_loop(test_loader, resnet, CE_loss)
 		
-		
+	
 
 
