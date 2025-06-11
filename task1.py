@@ -14,6 +14,8 @@ def train_loop(dataloader, model, loss_func, optimizer):
 	model.train()
 
 	for batch, (inputs, labels) in enumerate(dataloader):
+		inputs = inputs.to(device)
+		labels = labels.to(device)
 
 		output = model(inputs)
 		prob, preds = torch.max(outputs, dim=1)
