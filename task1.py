@@ -25,7 +25,7 @@ def train_loop(dataloader, model, loss_func, optimizer):
 
 
 learning_rate = 0.001
-epoch_num = 
+epoch_num = 30
 batch_size = 64
 
 
