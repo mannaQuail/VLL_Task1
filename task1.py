@@ -31,7 +31,13 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		print(f"loss: {loss:>7f}, [{(batch+1)*batch_size:>5d}/{total_size:>5d}]")
 
 def test_loop(dataloader, model, loss_func):
-	size = len(dataloader)
+	batch_num = len(dataloader)
+
+	images, _ = next(iter(train_loader))
+	batch_size = images.shape[0]
+	
+	total_size = batch_num*batch_size
+
 	test_loss = 0.0
 	test_acc = 0.0
 
@@ -44,11 +50,11 @@ def test_loop(dataloader, model, loss_func):
 
 			output = model(inputs)
 
-			test_loss += loss_func(output, labels)
+			test_loss += loss_func(output, labels)*batch_size
 			test_acc += (torch.argmax(output, dim=1)[1]==labels).type(torch.float).sum().item()
 
-	test_loss /= size
-	test_acc /= size
+	test_loss /= total_size
+	test_acc /= total_size
 
 	print(f"test loss: {test_loss:>7f}, test acc: {test_acc:>3f}\n")
 
