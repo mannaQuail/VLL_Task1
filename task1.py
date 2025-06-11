@@ -1,16 +1,16 @@
 import torch
-import torchvision.transforms as transforms
-from torchvision.datasets import ImageFolder
-import os
+from torchvision import datasets, transforms
 
-use_cuda = torch.cuda.is_available()
-device = torch.device('cuda' if use_cuda else 'cpu')
+# 데이터 전처리 설정
+transform = transforms.Compose([
+    transforms.ToTensor(),  # 0~255 → 0.0~1.0
+    transforms.Normalize((0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2761))  # CIFAR-100 평균/표준편차
+])
 
-batch_size = 256
-epoch = 30
-
+# 데이터셋 경로
 root_dir = "/data/datasets/cifar-100-python"
 
+# 훈련셋 불러오기
 train_dataset = datasets.CIFAR100(
     root=root_dir,
     train=True,
