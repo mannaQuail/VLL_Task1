@@ -68,7 +68,7 @@ images, labels = next(iter(train_loader))
 print(f"이미지 배치 shape: {images.shape}, 레이블 shape: {labels.shape}")
 
 resnet = models.resnet50(pretrained = True)
-resnet.fc = nn.Linear(in_features=model.fc.in_features, out_features=100)
+resnet.fc = nn.Linear(in_features=resnet.fc.in_features, out_features=100)
 
 resnet = resnet.to(device)
 
