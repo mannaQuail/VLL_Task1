@@ -106,7 +106,7 @@ for epoch in range(epoch_num):
 	print(f"----------Epoch:{epoch}----------")
 
 	train_loop(train_loader, resnet, CE_loss, optimizer)
-	text_loop(test_loader, resnet, CE_loss)
+	test_loop(test_loader, resnet, CE_loss)
 		
 	
 
