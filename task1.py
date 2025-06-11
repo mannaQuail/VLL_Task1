@@ -99,7 +99,7 @@ test_dataset = datasets.CIFAR100(
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-
+print("check1")
 
 # 확인
 images, labels = next(iter(train_loader))
