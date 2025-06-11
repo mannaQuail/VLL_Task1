@@ -68,7 +68,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 데이터 전처리 설정
 transform = transforms.Compose([
-	transforms.Resize(224)
+	transforms.Resize(224),
     transforms.ToTensor(),  # 0~255 → 0.0~1.0
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # CIFAR-100 평균/표준편차
 ])
