@@ -31,7 +31,7 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		print(f"loss: {loss:>7f}, [{(batch+1)*batch_size:>5d}/{total_size:>5d}]")
 
 def test_loop(dataloader, model, loss_func):
-	size = dataloader.shape[0]
+	size = len(dataloader)
 	test_loss = 0.0
 	test_acc = 0.0
 
