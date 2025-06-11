@@ -39,6 +39,7 @@ def test_loop(dataloader, model, loss_func):
 
 	with torch.no_grad():
 		for inputs, labels in dataloader:
+			inputs = inputs.to(device)
 			output = model(inputs)
 			test_loss += loss_func(output, labels)
 			test_acc += (torch.max(output, dim=1)[1]==labels).type(torch.float).sum().item()
