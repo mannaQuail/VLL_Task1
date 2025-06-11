@@ -25,7 +25,7 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		optimizer.step()
 		optimizer.zero_grad()
 
-		print(f"loss: {loss}, {(batch+1)*batch_size}/{size}")
+		print(f"loss: {loss}, {(batch+1)*batch_size}/{size*batch_size}")
 
 
 learning_rate = 0.001
