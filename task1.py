@@ -61,6 +61,7 @@ def test_loop(dataloader, model, loss_func):
 
 	print(f"test loss: {test_loss:>7f}, test acc: {test_acc:>3f}\n")
 
+print("check1")
 
 learning_rate = 0.001
 epoch_num = 30
@@ -68,6 +69,8 @@ batch_size = 64
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+print("check2")
 
 # 데이터 전처리 설정
 transform = transforms.Compose([
@@ -87,6 +90,8 @@ train_dataset = datasets.CIFAR100(
     download=False  # 이미 로컬에 있으므로 False
 )
 
+print("check3")
+
 # 테스트셋 불러오기
 test_dataset = datasets.CIFAR100(
     root=root_dir,
@@ -94,6 +99,8 @@ test_dataset = datasets.CIFAR100(
     transform=transform,
     download=False
 )
+
+print("check4")
 
 # 데이터로더 예시
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
