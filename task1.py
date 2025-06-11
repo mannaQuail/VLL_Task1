@@ -28,7 +28,10 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		optimizer.step()
 		optimizer.zero_grad()
 
-		print(f"loss: {loss:>7f}, [{(batch+1)*batch_size:>5d}/{total_size:>5d}]")
+		current_batch_num = (batch+1)*batch_size
+
+		if (batch+1)%30 == 0:
+			print(f"loss: {loss:>7f}, [{current_batch_num:>5d}/{total_size:>5d}]")
 
 def test_loop(dataloader, model, loss_func):
 	batch_num = len(dataloader)
@@ -122,7 +125,3 @@ for epoch in range(epoch_num):
 
 	train_loop(train_loader, resnet, CE_loss, optimizer)
 	test_loop(test_loader, resnet, CE_loss)
-		
-	
-
-
