@@ -51,9 +51,6 @@ optimizer_ft = optim.Adam(filter(lambda p : p.requires_grad, resnet.parameters()
 from torch.optim import lr_scheduler
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size = 7, gamma = 0.1)
 # 에폭에 따라 lr변경 -> 7에폭마다 0.1씩 곱해짐
- -> 모델을 불러오는 부분은 큰 어려움 없음
-
- -> 모델의 마지막 출력을 해당 데이터셋 클래스 개수에 맞게 변환해주는게 중요
 
 ct = 0
 for child in resnet.children():  # model.children() -> 모델의 layer정보
