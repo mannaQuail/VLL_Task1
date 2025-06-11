@@ -8,7 +8,7 @@ transform = transforms.Compose([
 ])
 
 # 데이터셋 경로
-root_dir = "/data/datasets/cifar-100-python"
+root_dir = "/data/datasets"
 
 # 훈련셋 불러오기
 train_dataset = datasets.CIFAR100(
