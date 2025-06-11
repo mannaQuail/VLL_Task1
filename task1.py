@@ -1,5 +1,35 @@
 import torch
 from torchvision import datasets, transforms
+from torchvision import models
+import os
+
+
+def train_loop(dataloader, model, loss_func, optimizer):
+	size = len(dataloader)
+	images, _ = next(iter(train_loader))
+	batch_size = images.shape[0]
+
+	model.train()
+
+	for batch, (inputs, labels) in enumerate(dataloader):
+
+		output = model(inputs)
+		prob, preds = torch.max(outputs, dim=1)
+		loss = loss_func(outputs, labels)
+
+		loss.backward()
+		optimizer.step()
+		optimizer.zero_grad()
+
+		print(f"loss: {loss}, {(batch+1)*batch_size}/{size}")
+
+
+learning_rate = 0.001
+epoch_num = 
+batch_size = 64
+
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 데이터 전처리 설정
 transform = transforms.Compose([
@@ -27,9 +57,31 @@ test_dataset = datasets.CIFAR100(
 )
 
 # 데이터로더 예시
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+
 
 # 확인
 images, labels = next(iter(train_loader))
 print(f"이미지 배치 shape: {images.shape}, 레이블 shape: {labels.shape}")
+
+resnet = models.resnet50(pretrained = True)
+resnet.fc = nn.Linear(in_features=model.fc.in_features, out_features=100)
+
+resnet = resnet.to(device)
+
+CE_loss = nn.CrossEntropyLoss()
+
+optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
+
+for epoch in range(epoch_num):
+	loss_avg = 0.0
+	acc_avg = 0.0
+	print(f"--------------------Epoch:{epoch}--------------------")
+
+	train_loop(train_loader, resnet, CE_loss, optimizer)
+		
+		
+
+
