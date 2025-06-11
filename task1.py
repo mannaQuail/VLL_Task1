@@ -51,7 +51,7 @@ def test_loop(dataloader, model, loss_func):
 			output = model(inputs)
 
 			test_loss += loss_func(output, labels)*batch_size
-			test_acc += (torch.argmax(output, dim=1)[1]==labels).type(torch.float).sum().item()
+			test_acc += (torch.argmax(output, dim=1)==labels).type(torch.float).sum().item()
 
 	test_loss /= total_size
 	test_acc /= total_size
@@ -68,8 +68,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 데이터 전처리 설정
 transform = transforms.Compose([
+	transforms.Resize(224)
     transforms.ToTensor(),  # 0~255 → 0.0~1.0
-    transforms.Normalize((0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2761))  # CIFAR-100 평균/표준편차
+    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # CIFAR-100 평균/표준편차
 ])
 
 # 데이터셋 경로
@@ -109,6 +110,10 @@ resnet = resnet.to(device)
 CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
+
+for name, param in resnet.named_parameters():
+    print(name, param.requires_grad)
+
 
 for epoch in range(epoch_num):
 	loss_avg = 0.0
