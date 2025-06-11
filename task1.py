@@ -18,8 +18,8 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		labels = labels.to(device)
 
 		output = model(inputs)
-		prob, preds = torch.max(outputs, dim=1)
-		loss = loss_func(outputs, labels)
+		prob, preds = torch.max(output, dim=1)
+		loss = loss_func(output, labels)
 
 		loss.backward()
 		optimizer.step()
