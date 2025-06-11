@@ -103,7 +103,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, s
 
 # 확인
 images, labels = next(iter(train_loader))
-print(f"이미지 배치 shape: {images.shape}, 레이블 shape: {labels.shape}")
+print(f"training shape: {images.shape}, label shape: {labels.shape}")
 
 resnet = models.resnet50(pretrained = True)
 resnet.fc = nn.Linear(in_features=resnet.fc.in_features, out_features=100)
@@ -114,14 +114,12 @@ CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
 
-for name, param in resnet.named_parameters():
-    print(name, param.requires_grad)
-
+print("check")
 
 for epoch in range(epoch_num):
 	loss_avg = 0.0
 	acc_avg = 0.0
-	print(f"----------Epoch:{epoch}----------")
+	print(f"------------Epoch:{epoch}------------")
 
 	train_loop(train_loader, resnet, CE_loss, optimizer)
 	test_loop(test_loader, resnet, CE_loss)
