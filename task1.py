@@ -43,9 +43,9 @@ def test_loop(dataloader, model, loss_func):
 			labels = labels.to(device)
 
 			output = model(inputs)
-			
+
 			test_loss += loss_func(output, labels)
-			test_acc += (torch.max(output, dim=1)[1]==labels).type(torch.float).sum().item()
+			test_acc += (torch.argmax(output, dim=1)[1]==labels).type(torch.float).sum().item()
 
 	test_loss /= size
 	test_acc /= size
