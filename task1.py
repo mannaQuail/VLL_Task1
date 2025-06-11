@@ -7,9 +7,12 @@ import os
 
 
 def train_loop(dataloader, model, loss_func, optimizer):
-	size = len(dataloader)
+	batch_num = len(dataloader)
+
 	images, _ = next(iter(train_loader))
 	batch_size = images.shape[0]
+	
+	total_size = batch_num*batch_size
 
 	model.train()
 
@@ -25,7 +28,7 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		optimizer.step()
 		optimizer.zero_grad()
 
-		print(f"loss: {loss}, {(batch+1)*batch_size}/{size*batch_size}")
+		print(f"loss: {loss:>7f}, {(batch+1)*batch_size:>5d}/{total_size:>5d}")
 
 
 learning_rate = 0.001
