@@ -118,7 +118,7 @@ resnet = resnet.to(device)
 CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, step_size=5, gamma=0.5)
 
 acc_best = 0.0
 model_best = None
