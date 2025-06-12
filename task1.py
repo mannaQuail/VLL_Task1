@@ -61,8 +61,6 @@ def test_loop(dataloader, model, loss_func):
 
 	print(f"test loss: {test_loss:>7f}, test acc: {test_acc:>3f}\n")
 
-print("check1")
-
 learning_rate = 0.001
 epoch_num = 30
 batch_size = 64
@@ -113,8 +111,6 @@ resnet = resnet.to(device)
 CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
-
-print("check")
 
 for epoch in range(epoch_num):
 	loss_avg = 0.0
