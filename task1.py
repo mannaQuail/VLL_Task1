@@ -70,8 +70,6 @@ batch_size = 64
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-print("check2")
-
 # 데이터 전처리 설정
 transform = transforms.Compose([
 	transforms.Resize(224),
@@ -90,8 +88,6 @@ train_dataset = datasets.CIFAR100(
     download=False  # 이미 로컬에 있으므로 False
 )
 
-print("check3")
-
 # 테스트셋 불러오기
 test_dataset = datasets.CIFAR100(
     root=root_dir,
@@ -100,19 +96,16 @@ test_dataset = datasets.CIFAR100(
     download=False
 )
 
-print("check4")
-
 # 데이터로더 예시
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-print("check1")
 
 # 확인
 images, labels = next(iter(train_loader))
 print(f"training shape: {images.shape}, label shape: {labels.shape}")
 
-resnet = models.resnet50(pretrained = True)
+resnet = models.resnet50(weights='ResNet50_Weights.DEFAULT')
 resnet.fc = nn.Linear(in_features=resnet.fc.in_features, out_features=100)
 
 resnet = resnet.to(device)
