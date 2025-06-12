@@ -7,6 +7,9 @@ import os
 
 
 def train_loop(dataloader, model, loss_func, optimizer):
+	current_lr = optimizer.param_groups[0]['lr']
+	print(f"current lr: {current_lr:.6f}")
+
 	batch_num = len(dataloader)
 
 	images, _ = next(iter(train_loader))
@@ -23,6 +26,7 @@ def train_loop(dataloader, model, loss_func, optimizer):
 		output = model(inputs)
 		prob, preds = torch.max(output, dim=1)
 		loss = loss_func(output, labels)
+		acc = (torch.argmax(output, dim=1)==labels).type(torch.float).sum().item()/batch_size
 
 		loss.backward()
 		optimizer.step()
@@ -30,8 +34,8 @@ def train_loop(dataloader, model, loss_func, optimizer):
 
 		current_batch_num = (batch+1)*batch_size
 
-		if (batch+1)%30 == 0:
-			print(f"loss: {loss:>7f}, [{current_batch_num:>5d}/{total_size:>5d}]")
+		if (batch+1)%50 == 0:
+			print(f"loss: {loss:>7f}, acc: {acc:>3f},   [{current_batch_num:>5d}/{total_size:>5d}]")
 
 def test_loop(dataloader, model, loss_func):
 	batch_num = len(dataloader)
@@ -60,6 +64,8 @@ def test_loop(dataloader, model, loss_func):
 	test_acc /= total_size
 
 	print(f"test loss: {test_loss:>7f}, test acc: {test_acc:>3f}\n")
+
+	return test_acc
 
 learning_rate = 0.001
 epoch_num = 30
@@ -111,11 +117,21 @@ resnet = resnet.to(device)
 CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
+scheduled_optimizer = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
 
+acc_best = 0.0
+model_best = None
 for epoch in range(epoch_num):
-	loss_avg = 0.0
-	acc_avg = 0.0
 	print(f"------------Epoch:{epoch}------------")
 
-	train_loop(train_loader, resnet, CE_loss, optimizer)
-	test_loop(test_loader, resnet, CE_loss)
+	if acc_best<0.7:
+		train_loop(train_loader, resnet, CE_loss, optimizer)
+	else:
+		train_loop(train_loader, resnet, CE_loss, scheduled_optimizer)
+	acc_tmp = test_loop(test_loader, resnet, CE_loss)
+
+	if acc_best < acc_tmp:
+		model_best = resnet
+		acc_best = acc_tmp
+
+print(f"best acc: {acc_best}")
