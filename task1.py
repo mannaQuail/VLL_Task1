@@ -9,7 +9,7 @@ import os
 
 def train_loop(dataloader, model, loss_func, optimizer):
 	current_lr = optimizer.param_groups[0]['lr']
-	print(f"current lr: {current_lr:.6f}")
+	print(f"current lr: {current_lr:.4e}")
 
 	batch_num = len(dataloader)
 
