@@ -30,8 +30,8 @@ def train_loop(dataloader, model, loss_func, optimizer):
 
 		current_batch_num = (batch+1)*batch_size
 
-		# if (batch+1)%30 == 0:
-		print(f"loss: {loss:>7f}, [{current_batch_num:>5d}/{total_size:>5d}]")
+		if (batch+1)%30 == 0:
+			print(f"loss: {loss:>7f}, [{current_batch_num:>5d}/{total_size:>5d}]")
 
 def test_loop(dataloader, model, loss_func):
 	batch_num = len(dataloader)
