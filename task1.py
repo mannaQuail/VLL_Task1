@@ -117,21 +117,21 @@ resnet = resnet.to(device)
 CE_loss = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(resnet.parameters(), lr=learning_rate)
-scheduled_optimizer = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.5)
 
 acc_best = 0.0
 model_best = None
 for epoch in range(epoch_num):
 	print(f"------------Epoch:{epoch}------------")
 
-	if acc_best<0.7:
-		train_loop(train_loader, resnet, CE_loss, optimizer)
-	else:
-		train_loop(train_loader, resnet, CE_loss, scheduled_optimizer)
+	if acc_best>0.7:
+		scheduler.step()
+
+	train_loop(train_loader, resnet, CE_loss, optimizer)
 	acc_tmp = test_loop(test_loader, resnet, CE_loss)
 
 	if acc_best < acc_tmp:
-		model_best = resnet
+		model_best = copy.deepcopy(resnet)
 		acc_best = acc_tmp
 
 print(f"best acc: {acc_best}")
