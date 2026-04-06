@@ -1,5 +1,6 @@
 # VLL_Task1
-## Goal: acheive accuracy 75% at CIFAR-100 dataset by using ResNet-50
+## Goal
+Acheiving accuracy 75% at CIFAR-100 dataset by using ResNet-50
 
 ## Model
 ResNet-50, pretrained with ImageNet
@@ -11,6 +12,9 @@ ResNet-50, pretrained with ImageNet
  - optimizer: Adam
  - scheduler: StepLR(step_size=5, gamma=0.5)
  - As a warm-up strategy, StepLR was applied once the test accuracy exceeded 70%
+
+## GPU resource
+1 NVIDIA GeForce RTX 3090 GPU
 
 ## Result
 Best Accuracy: 80.1%
