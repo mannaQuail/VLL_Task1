@@ -1,6 +1,7 @@
 # VLL_Task1
 ## Goal
-Acheiving accuracy 75% at CIFAR-100 dataset by using ResNet-50
+Acheiving accuracy 75% at CIFAR-100 dataset by using ResNet-50</br>
+The implementation should be done from scratch
 
 ## Model
 ResNet-50, pretrained with ImageNet
